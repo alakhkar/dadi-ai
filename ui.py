@@ -96,7 +96,7 @@ def load_custom_css():
         }
         </style>
     """, unsafe_allow_html=True)
-"""
+
 # --- MOCK BACKEND LOGIC ---
 # Replace this function with your actual model call (e.g., OpenAI/Gemini API)
 def get_dadi_response(user_input):
@@ -112,7 +112,7 @@ def get_dadi_response(user_input):
         "That sounds lovely! Tell me more about it."
     ]
     return random.choice(responses)
-"""
+
 # --- MAIN APP UI ---
 def run():
     load_custom_css()
