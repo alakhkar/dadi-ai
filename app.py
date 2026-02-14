@@ -49,7 +49,7 @@ st.markdown("""
 
     /* USER'S BUBBLE (Human) */
     .stChatMessage[data-testid="stChatMessage"]:nth-child(even) {
-        background-color: #2563EB; /* Professional Blue */
+        background-color: #C9FFE5; /* Professional Blue */
         color: Blue;
         border-radius: 20px 20px 5px 20px; /* Subtle shape styling */
         padding: 1.5rem;
