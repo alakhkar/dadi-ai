@@ -4,80 +4,78 @@ import os
 
 # --- 1. CONFIGURATION ---
 st.set_page_config(
-    page_title="DADI AI 🕶️",
+    page_title="DADI AI",
     page_icon="👵🏽",
-    layout="wide", # Matches the wide web app design
-    initial_sidebar_state="expanded"
+    layout="centered",
+    initial_sidebar_state="collapsed"
 )
 
-# --- 2. THE "GEN Z PURPLE" CSS STYLING ---
+# --- 2. CLEAN & POLISHED CSS ---
 st.markdown("""
     <style>
-    /* Import Google Font: Poppins */
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap');
+    /* Import Google Font: Inter */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
 
-    /* Apply Font Globally */
     html, body, [class*="css"] {
-        font-family: 'Poppins', sans-serif;
+        font-family: 'Inter', sans-serif;
     }
 
     /* BACKGROUND */
     .stApp {
-        background-color: #FFFFFF;
+        background-color: #F8F9FA; /* Soft Gray-White */
     }
 
-    /* HEADER STYLE */
-    h1 {
-        color: #6200EA; /* Electric Purple */
-        font-weight: 800;
-        font-size: 3rem !important;
-        text-transform: uppercase;
-        letter-spacing: -1px;
-    }
-    
-    /* SIDEBAR STYLE */
-    [data-testid="stSidebar"] {
-        background-color: #F3F0FF; /* Very light purple */
-        border-right: 2px solid #6200EA;
-    }
-    [data-testid="stSidebar"] h1 {
-        font-size: 1.5rem !important;
+    /* REMOVE HEADER PADDING */
+    .block-container {
+        padding-top: 2rem;
+        padding-bottom: 5rem;
     }
 
-    /* CHAT MESSAGES - SHARED */
+    /* CHAT BUBBLES - SHARED */
     .stChatMessage {
-        padding: 1rem;
-        border-radius: 15px;
-        margin-bottom: 1rem;
+        background-color: transparent;
+        border: none;
     }
 
-    /* DADI'S BUBBLE (The "Quote" Look) */
+    /* DADI'S BUBBLE (AI) */
     .stChatMessage[data-testid="stChatMessage"]:nth-child(odd) {
         background-color: #FFFFFF;
-        border: 3px solid #6200EA; /* Thick Purple Border */
-        color: #000000;
-        box-shadow: 4px 4px 0px #6200EA; /* 3D Shadow Effect */
+        border-radius: 20px;
+        box-shadow: 0px 2px 10px rgba(0,0,0,0.05); /* Soft Shadow */
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+        border: 1px solid #E5E7EB;
     }
 
-    /* USER'S BUBBLE (Bright Yellow) */
+    /* USER'S BUBBLE (Human) */
     .stChatMessage[data-testid="stChatMessage"]:nth-child(even) {
-        background-color: #FFD600; /* Gen Z Yellow */
-        color: #000000;
-        border: none;
-        font-weight: 600;
-        box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
-    }
-
-    /* INPUT FIELD STYLING */
-    .stChatInput {
-        border-radius: 20px !important;
-        border: 2px solid #6200EA !important;
+        background-color: #2563EB; /* Professional Blue */
+        color: white;
+        border-radius: 20px 20px 5px 20px; /* Subtle shape styling */
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+        box-shadow: 0px 4px 15px rgba(37, 99, 235, 0.2); /* Glow effect */
     }
     
-    /* CUSTOM BUTTONS IN SIDEBAR */
-    .css-1button {
-        background-color: #6200EA;
-        color: white;
+    /* Text Color Fix for User Bubble */
+    .stChatMessage[data-testid="stChatMessage"]:nth-child(even) p {
+        color: white !important;
+    }
+
+    /* INPUT FIELD - FLOATING STYLE */
+    .stChatInput {
+        position: fixed;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 70% !important;
+        z-index: 1000;
+    }
+    
+    .stChatInput input {
+        border-radius: 30px !important;
+        border: 1px solid #E5E7EB !important;
+        box-shadow: 0px 5px 20px rgba(0,0,0,0.08) !important;
     }
     
     /* HIDE DEFAULT HEADER */
@@ -94,68 +92,39 @@ if not api_key:
 genai.configure(api_key=api_key)
 model = genai.GenerativeModel('gemini-2.5-flash')
 
-# System Prompt (The Persona)
+# Persona
 system_prompt = """
-You are Dadi AI, a cool, sarcastic, Gen Z-savvy Indian grandmother.
-You wear sunglasses inside the house.
-You speak Hinglish (Hindi + English).
-Your advice is a mix of old wisdom and modern savage roasting.
-Keep answers short, punchy, and use emojis like 💅, 💀, 🙄.
+You are Dadi AI. A minimalist, wise, and slightly sarcastic Indian grandmother.
+Keep answers short and elegant.
 """
 
-# --- 4. SIDEBAR (RECENTS) ---
-with st.sidebar:
-    st.title("🕒 Recents")
-    st.markdown("---")
-    # Dummy buttons to look like the design
-    st.button("🌙 Late Night Crisis")
-    st.button("👗 Outfit Check")
-    st.button("💔 Love Life Roast")
-    st.button("🧘‍♀️ Career Stress")
-    
-    st.markdown("---")
-    st.caption("Designed by You • Built with Python")
-
-# --- 5. MAIN CHAT INTERFACE ---
-
-# Header
-col1, col2 = st.columns([1, 8])
+# --- 4. UI HEADER ---
+col1, col2 = st.columns([1, 10])
 with col1:
-    # You can replace this with your own logo image later
-    st.markdown("# 👵🏽") 
+    st.write("👵🏽") 
 with col2:
-    st.markdown("# DADI AI")
+    st.markdown("### Dadi AI")
 
-st.markdown("**Roasting you for your own good since 1950.**")
-st.write("") # Spacer
+st.caption("Wisdom, modernized.")
 
-# Initialize Chat History
+# --- 5. CHAT LOGIC ---
 if "messages" not in st.session_state:
     st.session_state.messages = [
-        {"role": "model", "content": "Yo beta! Why are you awake? Do you have a life plan or just WiFi?"}
+        {"role": "model", "content": "Beta, simplicity is the ultimate sophistication. What is troubling you?"}
     ]
 
-# Display Chat
 for message in st.session_state.messages:
-    with st.chat_message(message["role"], avatar="👵🏽" if message["role"] == "model" else "😎"):
+    with st.chat_message(message["role"], avatar="👵🏽" if message["role"] == "model" else "🧑‍💻"):
         st.markdown(message["content"])
 
-# Handle Input
-if prompt := st.chat_input("Type something to get roasted..."):
-    # User Message
+if prompt := st.chat_input("Ask Dadi..."):
     st.session_state.messages.append({"role": "user", "content": prompt})
-    with st.chat_message("user", avatar="😎"):
+    with st.chat_message("user", avatar="🧑‍💻"):
         st.markdown(prompt)
 
-    # Dadi Response
     with st.chat_message("model", avatar="👵🏽"):
         chat_history = [{"role": "user", "parts": [system_prompt + " User says: " + prompt]}]
         response = model.generate_content(chat_history)
-        dadi_reply = response.text
+        st.markdown(response.text)
         
-        st.markdown(dadi_reply)
-        
-        # Purple "Share" Box
-        # st.code(f"👵🏽 Dadi AI: {dadi_reply}\n\n🔥 dadi-ai.streamlit.app", language=None)
-        
-    st.session_state.messages.append({"role": "model", "content": dadi_reply})
+    st.session_state.messages.append({"role": "model", "content": response.text})
