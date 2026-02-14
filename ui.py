@@ -114,7 +114,7 @@ def get_dadi_response(user_input):
     return random.choice(responses)
 
 # --- MAIN APP UI ---
-def main():
+def run():
     load_custom_css()
 
     # Custom Header
