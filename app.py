@@ -59,7 +59,7 @@ st.markdown("""
     
     /* Text Color Fix for User Bubble */
     .stChatMessage[data-testid="stChatMessage"]:nth-child(even) p {
-        color: white !important;
+        color: Blue !important;
     }
 
     /* INPUT FIELD - FLOATING STYLE */
