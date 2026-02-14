@@ -90,7 +90,7 @@ if not api_key:
     st.stop()
 
 genai.configure(api_key=api_key)
-model = genai.GenerativeModel('gemini-2.5-flash-lite')
+model = genai.GenerativeModel('gemini-2.5-pro')
 
 # Persona
 system_prompt = """
