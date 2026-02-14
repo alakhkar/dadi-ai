@@ -156,6 +156,6 @@ if prompt := st.chat_input("Type something to get roasted..."):
         st.markdown(dadi_reply)
         
         # Purple "Share" Box
-        st.code(f"👵🏽 Dadi AI: {dadi_reply}\n\n🔥 dadi-ai.streamlit.app", language=None)
+        # st.code(f"👵🏽 Dadi AI: {dadi_reply}\n\n🔥 dadi-ai.streamlit.app", language=None)
         
     st.session_state.messages.append({"role": "model", "content": dadi_reply})
